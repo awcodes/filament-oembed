@@ -1,13 +1,7 @@
-# This is my package filament-oembed
+# A collection of components to extend Filament Admin.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/awcodes/filament-oembed.svg?style=flat-square)](https://packagist.org/packages/awcodes/filament-oembed)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/awcodes/filament-oembed/run-tests?label=tests)](https://github.com/awcodes/filament-oembed/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/awcodes/filament-oembed/Check%20&%20fix%20styling?label=code%20style)](https://github.com/awcodes/filament-oembed/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/awcodes/filament-oembed.svg?style=flat-square)](https://packagist.org/packages/awcodes/filament-oembed)
-
-
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
 ## Installation
 
@@ -17,43 +11,35 @@ You can install the package via composer:
 composer require awcodes/filament-oembed
 ```
 
-You can publish and run the migrations with:
+Optionally, you can publish the views, assets or translations using:
 
 ```bash
-php artisan vendor:publish --tag="filament-oembed-migrations"
-php artisan migrate
+php artisan vendor:publish --tag=filament-oembed-assets
+php artisan vendor:publish --tag=filament-oembed-translations
+php artisan vendor:publish --tag=filament-oembed-views
 ```
 
-You can publish the config file with:
+## Theming
 
-```bash
-php artisan vendor:publish --tag="filament-oembed-config"
+If you are using a custom theme for Filament you will need to add this plugin's views to your Tailwind CSS config. Once this is done you may disable the plugin's stylesheet in the config file by changing 'load_styles' to false.
+
+```js
+content: [
+    ...
+    "./vendor/awcodes/filament-oembed/resources/views/**/*.blade.php",
+],
 ```
+### Usage
 
-Optionally, you can publish the views using
+![video-embed](./images/oembed.png)
 
-```bash
-php artisan vendor:publish --tag="filament-oembed-views"
-```
-
-This is the contents of the published config file:
+Allows an oEmbed video with preview. ***Only supports YouTube and Vimeo
+at the moment.***
 
 ```php
-return [
-];
-```
+use Awcodes\FilamentOembed\Forms\Components\OEmbed;
 
-## Usage
-
-```php
-$filament-oembed = new Awcodes\FilamentOembed();
-echo $filament-oembed->echoPhrase('Hello, Awcodes!');
-```
-
-## Testing
-
-```bash
-composer test
+OEmbed::make(string $fieldname)
 ```
 
 ## Changelog
@@ -70,7 +56,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [awcodes](https://github.com/awcodes)
+- [Adam Weston](https://github.com/awcodes)
 - [All Contributors](../../contributors)
 
 ## License

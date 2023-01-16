@@ -34,8 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Awcodes\\FilamentOembed\\": "src",
-            "Awcodes\\FilamentOembed\\Database\\Factories\\": "database/factories"
+            "Awcodes\\FilamentOembed\\": "src"
         }
     },
     "autoload-dev": {
@@ -47,8 +46,7 @@
         "pint": "vendor/bin/pint",
         "test:pest": "vendor/bin/pest --parallel",
         "test": [
-            "@test:pest",
-            "@test:phpstan"
+            "@test:pest"
         ]
     },
     "config": {
@@ -62,11 +60,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Awcodes\\FilamentOembed\\FilamentOembedServiceProvider"
-            ],
-            "aliases": {
-                "FilamentOembed": "Awcodes\\FilamentOembed\\Facades\\FilamentOembed"
-            }
+                "Awcodes\\FilamentOembed\\OembedServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",
