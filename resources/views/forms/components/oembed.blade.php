@@ -1,36 +1,25 @@
-@php
-    $state = $getState();
+@props([
+    'media' => null,
+])
 
-        $styles = $state['responsive'] ? "aspect-ratio: {$state['width']} / {$state['height']}; width: 100%; height: auto;" : null;
+@if($media && $media['embed_url'])
+    @php
+        $styles = $media['responsive'] ? "aspect-ratio: {$media['width']} / {$media['height']}; width: 100%; height: auto;" : null;
         $params = [
-            'autoplay' => $state['autoplay'] ? 1 : 0,
-            'loop' => $state['loop'] ? 1 : 0,
-            'title' => $state['show_title'] ? 1 : 0,
-            'byline' => $state['byline'] ? 1 : 0,
-            'portrait' => $state['portrait'] ? 1 : 0,
+            'autoplay' => $media['autoplay'] ? 1 : 0,
+            'loop' => $media['loop'] ? 1 : 0,
+            'title' => $media['show_title'] ? 1 : 0,
+            'byline' => $media['byline'] ? 1 : 0,
+            'portrait' => $media['portrait'] ? 1 : 0,
         ];
-@endphp
+    @endphp
 
-<x-forms::field-wrapper
-    :id="$getId()"
-    :label="$getLabel()"
-    :label-sr-only="$isLabelHidden()"
-    :helper-text="$getHelperText()"
-    :hint="$getHint()"
-    :hint-icon="$getHintIcon()"
-    :required="$isRequired()"
-    :state-path="$getStatePath()"
->
-    <div class="border border-gray-300 dark:border-gray-700 rounded-xl overflow-hidden aspect-video w-full h-auto">
-        @if($state && $state['embed_url'])
-            <iframe
-                src="{{ $state['embed_url'] }}?{{ http_build_query($params) }}"
-                width="{{ $state['responsive'] ? $state['width'] : ($state['width'] ?: '640') }}"
-                height="{{ $state['responsive'] ? $state['height'] : ($state['height'] ?: '480') }}"
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowfullscreen
-                style="{{ $styles }}"
-            ></iframe>
-        @endif
-    </div>
-</x-forms::field-wrapper>
+    <iframe
+        src="{{ $media['embed_url'] }}?{{ http_build_query($params) }}"
+        width="{{ $media['responsive'] ? $media['width'] : ($media['width'] ?: '640') }}"
+        height="{{ $media['responsive'] ? $media['height'] : ($media['height'] ?: '480') }}"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen
+        style="{{ $styles }}"
+    ></iframe>
+@endif

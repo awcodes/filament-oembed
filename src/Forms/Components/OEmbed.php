@@ -107,7 +107,7 @@ class OEmbed
                         ]),
                 ]),
                 Forms\Components\ViewField::make($field)
-                    ->view('filament-oembed::forms.components.oembed')
+                    ->view('filament-oembed::forms.components.oembed-preview')
                     ->label(fn (): string => __('filament-oembed::oembed.preview')),
             ]);
     }
