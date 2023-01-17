@@ -2,11 +2,11 @@
 
 namespace Awcodes\FilamentOembed\Tests;
 
+use Awcodes\FilamentOembed\OembedServiceProvider;
 use Filament\FilamentServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Awcodes\FilamentOembed\OembedServiceProvider;
 
 class TestCase extends Orchestra
 {

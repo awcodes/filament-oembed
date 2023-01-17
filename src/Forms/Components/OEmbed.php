@@ -42,7 +42,7 @@ class OEmbed
                         ->afterStateHydrated(function ($component, $state) {
                             if (! $state) {
                                 $component->state(true);
-                            };
+                            }
                         })
                         ->afterStateUpdated(function (Closure $set, Closure $get, $state) use ($field) {
                             if ($state) {
@@ -63,7 +63,7 @@ class OEmbed
                             ->afterStateHydrated(function ($component, $state) {
                                 if (! $state) {
                                     $component->state('16');
-                                };
+                                }
                             }),
                         Forms\Components\TextInput::make($field.'.height')
                             ->reactive()
@@ -73,7 +73,7 @@ class OEmbed
                             ->afterStateHydrated(function ($component, $state) {
                                 if (! $state) {
                                     $component->state('9');
-                                };
+                                }
                             }),
                     ])->columns(['md' => 2]),
                     Forms\Components\Grid::make(['md' => 3])
