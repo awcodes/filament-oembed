@@ -2,11 +2,11 @@
     $state = $getState();
 
     $params = [
-        'autoplay' => $state['autoplay'] ? 1 : 0,
-        'loop' => $state['loop'] ? 1 : 0,
-        'title' => $state['show_title'] ? 1 : 0,
-        'byline' => $state['byline'] ? 1 : 0,
-        'portrait' => $state['portrait'] ? 1 : 0,
+        'autoplay' => in_array('autoplay', $state['options']) ? 1 : 0,
+        'loop' => in_array('loop', $state['options']) ? 1 : 0,
+        'title' => in_array('title', $state['options']) ? 1 : 0,
+        'byline' => in_array('byline', $state['options']) ? 1 : 0,
+        'portrait' => in_array('portrait', $state['options']) ? 1 : 0,
     ];
 @endphp
 

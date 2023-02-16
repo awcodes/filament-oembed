@@ -1,4 +1,4 @@
-# A collection of components to extend Filament Admin.
+# oEmbed field for Filament
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/awcodes/filament-oembed.svg?style=flat-square)](https://packagist.org/packages/awcodes/filament-oembed)
 [![Total Downloads](https://img.shields.io/packagist/dt/awcodes/filament-oembed.svg?style=flat-square)](https://packagist.org/packages/awcodes/filament-oembed)
@@ -11,12 +11,31 @@ You can install the package via composer:
 composer require awcodes/filament-oembed
 ```
 
-Optionally, you can publish the views, assets or translations using:
+Optionally, you can publish the assets or translations using:
 
 ```bash
-php artisan vendor:publish --tag=filament-oembed-assets
-php artisan vendor:publish --tag=filament-oembed-translations
-php artisan vendor:publish --tag=filament-oembed-views
+php artisan vendor:publish --tag="filament-oembed-assets"
+php artisan vendor:publish --tag="filament-oembed-translations"
+```
+
+## Usage
+
+Allows an oEmbed video with preview. ***Only supports YouTube and Vimeo
+at the moment.***
+
+```php
+use Awcodes\FilamentOembed\Forms\Components\OEmbed;
+
+OEmbed::make(string $fieldname)
+```
+
+## Blade Component
+
+You are free to output the data any way you see fit, but there is a blade 
+component you can use to make this easier for you.
+
+```html
+<x-filament-oembed::oembed :media="$post->hero" />
 ```
 
 ## Theming
@@ -27,19 +46,7 @@ If you are using a custom theme for Filament you will need to add this plugin's 
 content: [
     ...
     "./vendor/awcodes/filament-oembed/resources/views/**/*.blade.php",
-],
-```
-### Usage
-
-![video-embed](./images/oembed.png)
-
-Allows an oEmbed video with preview. ***Only supports YouTube and Vimeo
-at the moment.***
-
-```php
-use Awcodes\FilamentOembed\Forms\Components\OEmbed;
-
-OEmbed::make(string $fieldname)
+]
 ```
 
 ## Changelog

@@ -13,10 +13,6 @@ class OembedServiceProvider extends PluginServiceProvider
         'plugin-filament-oembed' => __DIR__.'/../resources/dist/filament-oembed.css',
     ];
 
-    protected array $scripts = [
-        'plugin-filament-oembed' => __DIR__.'/../resources/dist/filament-oembed.js',
-    ];
-
     public function configurePackage(Package $package): void
     {
         $package->name(static::$name)

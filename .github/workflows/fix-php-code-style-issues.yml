@@ -22,4 +22,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: main
-          commit_message: Fix styling
+          commit_message: Fix PHP code styling

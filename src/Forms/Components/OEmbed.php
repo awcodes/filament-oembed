@@ -15,30 +15,32 @@ class OEmbed
             ->schema([
                 Forms\Components\Group::make([
                     Forms\Components\Hidden::make($field.'.embed_url'),
-                    Forms\Components\Hidden::make($field.'.embed_type')
+                    Forms\Components\Hidden::make($field.'.provider')
                         ->default('youtube'),
                     Forms\Components\TextInput::make($field.'.url')
                         ->label(fn (): string => __('filament-oembed::oembed.url'))
                         ->reactive()
                         ->lazy()
+                        ->required()
+                        ->columnSpanFull()
                         ->afterStateUpdated(function (Closure $set, Closure $get, $state) use ($field) {
                             if ($state) {
-                                $embed_type = Str::of($state)->contains('vimeo') ? 'vimeo' : 'youtube';
-                                if ($embed_type == 'vimeo') {
-                                    $embed_url = static::getVimeoUrl($state);
-                                } else {
-                                    $embed_url = static::getYoutubeUrl($state);
-                                }
+                                $provider = Str::of($state)->contains('vimeo') ? 'vimeo' : 'youtube';
+
+                                $embed_url = match ($provider) {
+                                    'vimeo' => static::getVimeoUrl($state),
+                                    default => static::getYoutubeUrl($state),
+                                };
+
                                 $set($field.'.embed_url', $embed_url);
-                                $set($field.'.embed_type', $embed_type);
+                                $set($field.'.provider', $provider);
                             }
-                        })
-                        ->required()
-                        ->columnSpan('full'),
+                        }),
                     Forms\Components\Checkbox::make($field.'.responsive')
+                        ->label(fn (): string => __('filament-oembed::oembed.responsive'))
                         ->default(true)
                         ->reactive()
-                        ->label(fn (): string => __('filament-oembed::oembed.responsive'))
+                        ->columnSpanFull()
                         ->afterStateHydrated(function ($component, $state) {
                             if (! $state) {
                                 $component->state(true);
@@ -52,13 +54,12 @@ class OEmbed
                                 $set($field.'.width', '640');
                                 $set($field.'.height', '480');
                             }
-                        })
-                        ->columnSpan('full'),
+                        }),
                     Forms\Components\Group::make([
                         Forms\Components\TextInput::make($field.'.width')
+                            ->label(fn (): string => __('filament-oembed::oembed.width'))
                             ->reactive()
                             ->required()
-                            ->label(fn (): string => __('filament-oembed::oembed.width'))
                             ->default('16')
                             ->afterStateHydrated(function ($component, $state) {
                                 if (! $state) {
@@ -66,9 +67,9 @@ class OEmbed
                                 }
                             }),
                         Forms\Components\TextInput::make($field.'.height')
+                            ->label(fn (): string => __('filament-oembed::oembed.height'))
                             ->reactive()
                             ->required()
-                            ->label(fn (): string => __('filament-oembed::oembed.height'))
                             ->default('9')
                             ->afterStateHydrated(function ($component, $state) {
                                 if (! $state) {
@@ -76,39 +77,21 @@ class OEmbed
                                 }
                             }),
                     ])->columns(['md' => 2]),
-                    Forms\Components\Grid::make(['md' => 3])
-                        ->schema([
-                            Forms\Components\Group::make([
-                                Forms\Components\Checkbox::make($field.'.autoplay')
-                                    ->default(false)
-                                    ->label(fn (): string => __('filament-oembed::oembed.autoplay'))
-                                    ->reactive(),
-                                Forms\Components\Checkbox::make($field.'.loop')
-                                    ->default(false)
-                                    ->label(fn (): string => __('filament-oembed::oembed.loop'))
-                                    ->reactive(),
-                            ]),
-                            Forms\Components\Group::make([
-                                Forms\Components\Checkbox::make($field.'.show_title')
-                                    ->default(false)
-                                    ->label(fn (): string => __('filament-oembed::oembed.title'))
-                                    ->reactive(),
-                                Forms\Components\Checkbox::make($field.'.byline')
-                                    ->default(false)
-                                    ->label(fn (): string => __('filament-oembed::oembed.byline'))
-                                    ->reactive(),
-                            ]),
-                            Forms\Components\Group::make([
-                                Forms\Components\Checkbox::make($field.'.portrait')
-                                    ->default(false)
-                                    ->label(fn (): string => __('filament-oembed::oembed.portrait'))
-                                    ->reactive(),
-                            ]),
+                    Forms\Components\CheckboxList::make($field.'.options')
+                        ->bulkToggleable()
+                        ->columns(3)
+                        ->reactive()
+                        ->options([
+                            'autoplay' => __('filament-oembed::oembed.autoplay'),
+                            'loop' => __('filament-oembed::oembed.loop'),
+                            'title' => __('filament-oembed::oembed.title'),
+                            'byline' => __('filament-oembed::oembed.byline'),
+                            'portrait' => __('filament-oembed::oembed.portrait'),
                         ]),
                 ]),
                 Forms\Components\ViewField::make($field)
-                    ->view('filament-oembed::forms.components.oembed-preview')
-                    ->label(fn (): string => __('filament-oembed::oembed.preview')),
+                    ->label(fn (): string => __('filament-oembed::oembed.preview'))
+                    ->view('filament-oembed::forms.components.oembed-preview'),
             ]);
     }
 
@@ -124,9 +107,7 @@ class OEmbed
             return '';
         }
 
-        $outputUrl = "https://player.vimeo.com/video/{$matches[1]}";
-
-        return $outputUrl;
+        return "https://player.vimeo.com/video/{$matches[1]}";
     }
 
     public static function getYoutubeUrl(string $url): string
@@ -141,8 +122,6 @@ class OEmbed
             return '';
         }
 
-        $outputUrl = "https://www.youtube.com/embed/{$matches[1]}";
-
-        return $outputUrl;
+        return "https://www.youtube.com/embed/{$matches[1]}";
     }
 }

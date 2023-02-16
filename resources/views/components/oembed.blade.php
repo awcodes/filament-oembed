@@ -1,16 +1,16 @@
 @props([
-    'media' => null,
+'media' => null,
 ])
 
 @if($media && $media['embed_url'])
     @php
         $styles = $media['responsive'] ? "aspect-ratio: {$media['width']} / {$media['height']}; width: 100%; height: auto;" : null;
         $params = [
-            'autoplay' => $media['autoplay'] ? 1 : 0,
-            'loop' => $media['loop'] ? 1 : 0,
-            'title' => $media['show_title'] ? 1 : 0,
-            'byline' => $media['byline'] ? 1 : 0,
-            'portrait' => $media['portrait'] ? 1 : 0,
+            'autoplay' => in_array('autoplay', $media['options']) ? 1 : 0,
+            'loop' => in_array('loop', $media['options']) ? 1 : 0,
+            'title' => in_array('title', $media['options']) ? 1 : 0,
+            'byline' => in_array('byline', $media['options']) ? 1 : 0,
+            'portrait' => in_array('portrait', $media['options']) ? 1 : 0,
         ];
     @endphp
 
