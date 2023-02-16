@@ -26,7 +26,50 @@ at the moment.***
 ```php
 use Awcodes\FilamentOembed\Forms\Components\OEmbed;
 
-OEmbed::make(string $fieldname)
+OEmbed::make('Hero')
+```
+
+### Converters
+
+By default, oEmbed comes with Converters for Vimeo and YouTube. If you need 
+to add your own or want to override the defaults you can do so by creating 
+your own converters and passing them to the `converters()` method. Any 
+converters provided in the method will be merged with the defaults.
+
+***Keys for the converters array should be the domain of the services you 
+are calling. For instance, `www.youtube.com` will get parsed to `youtube` and 
+`vimeo.com` will get parsed to `vimeo`.***
+
+#### Create a Converter
+
+```php
+use Awcodes\FilamentOembed\Interfaces\Converter;
+
+class MyVimeoConverter implements Converter
+{
+    public static function make(string $url): string {
+        // process url and return converted url for provider.
+    }
+}
+
+class BobsConverter implements Converter
+{
+    public static function make(string $url): string {
+        // process url and return converted url for provider.
+    }
+}
+```
+
+Then you can use it in one the field:
+
+```php
+use Awcodes\FilamentOembed\Forms\Components\OEmbed;
+
+OEmbed::make('Hero')
+    ->converters([
+        'vimeo' => MyVimeoConverter::class,
+        'bobs' => BobsConverter::class,
+    ]);
 ```
 
 ## Blade Component
