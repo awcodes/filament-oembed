@@ -21,14 +21,16 @@ class OEmbed
                         ->label(fn (): string => __('filament-oembed::oembed.url'))
                         ->reactive()
                         ->lazy()
-                        ->afterStateUpdated(function (Closure $set, Closure $get, $state) use ($field) {
+                        ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, $state) use ($field) {
                             if ($state) {
                                 $embed_type = Str::of($state)->contains('vimeo') ? 'vimeo' : 'youtube';
+
                                 if ($embed_type == 'vimeo') {
                                     $embed_url = static::getVimeoUrl($state);
                                 } else {
                                     $embed_url = static::getYoutubeUrl($state);
                                 }
+
                                 $set($field.'.embed_url', $embed_url);
                                 $set($field.'.embed_type', $embed_type);
                             }
@@ -39,12 +41,12 @@ class OEmbed
                         ->default(true)
                         ->reactive()
                         ->label(fn (): string => __('filament-oembed::oembed.responsive'))
-                        ->afterStateHydrated(function ($component, $state) {
+                        ->afterStateHydrated(function (Forms\Components\Component $component, $state) {
                             if (! $state) {
                                 $component->state(true);
                             }
                         })
-                        ->afterStateUpdated(function (Closure $set, Closure $get, $state) use ($field) {
+                        ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, $state) use ($field) {
                             if ($state) {
                                 $set($field.'.width', '16');
                                 $set($field.'.height', '9');
@@ -60,7 +62,7 @@ class OEmbed
                             ->required()
                             ->label(fn (): string => __('filament-oembed::oembed.width'))
                             ->default('16')
-                            ->afterStateHydrated(function ($component, $state) {
+                            ->afterStateHydrated(function (Forms\Components\Component $component, $state) {
                                 if (! $state) {
                                     $component->state('16');
                                 }
@@ -70,7 +72,7 @@ class OEmbed
                             ->required()
                             ->label(fn (): string => __('filament-oembed::oembed.height'))
                             ->default('9')
-                            ->afterStateHydrated(function ($component, $state) {
+                            ->afterStateHydrated(function (Forms\Components\Component $component, $state) {
                                 if (! $state) {
                                     $component->state('9');
                                 }
